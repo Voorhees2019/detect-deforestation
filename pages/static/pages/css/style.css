@@ -1,0 +1,42 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 65px;
+}
+
+.bg-primary {
+    background-color: #10284e !important;
+}
+
+.btn-primary {
+    background-color: #10284e !important;
+    border-color: #10284e;
+}
+
+.logo {
+    width: 40px;
+}
+
+.navbar {
+    opacity: 0.9;
+    text-transform: uppercase;
+}
+
+.social a {
+    margin-right: 0.4rem;
+    font-size: 20px;
+}
+
+.social a:hover {
+    text-decoration: none;
+}
+
+#main-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+}
