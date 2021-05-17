@@ -1,0 +1,111 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}| Detection{% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'detection/css/detect.css' %}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="{% static 'detection/js/mapHandler.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-3">
+        <ul id="tabs" class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a href="#" class="nav-link disabled" tabindex="-1" aria-disabled="true">
+                    Input Method</a>
+            </li>
+            <li class="nav-item">
+                <a id="file-upload" href="#pane-A" class="nav-link active" data-toggle="tab" role="tab">Upload File</a>
+            </li>
+            <li class="nav-item">
+                <a id="point-on-map" href="#pane-B" class="nav-link" data-toggle="tab" role="tab">Point on Map</a>
+            </li>
+        </ul>
+
+
+        <div id="content" class="tab-content" role="tablist">
+            <div id="pane-A" class="card tab-pane fade show active" role="tabpanel" aria-labelledby="file-upload">
+                <div class="card-header" role="tab" id="heading-A">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapse-A" aria-expanded="false"
+                           aria-controls="collapse-A">
+                            Upload File
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel"
+                     aria-labelledby="heading-A">
+                    <div class="card-body">
+                        <section>
+                            <div class="container">
+                                <form action="{% url 'detect_uploaded_file' %}" method="POST"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <h3>Make sure You're uploading a photo with
+                                        at least 500x500 resolution for better detection accuracy</h3>
+                                    <div class="fileInput">
+                                        <div class="form-group">
+                                            <input type="file" name="uploaded_file" id="file" class="input-file"
+                                                   required>
+                                            <label for="file" class="btn btn-tertiary js-labelFile">
+                                                <i class="icon fa fa-check"></i>
+                                                <span class="js-fileName">Upload photo</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <h3>Enter coordinates of center and zoom of uploaded photo</h3>
+                                    <div class="form-group">
+                                        <label for="lat">Latitude</label>
+                                        <input type="text" name="latitude" class="form-control" id="lat"
+                                               placeholder="52.152942" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lon">Longitude</label>
+                                        <input type="text" name="longitude" class="form-control" id="lon"
+                                               placeholder="32.827826" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="z">Zoom</label>
+                                        <input type="text" name="zoom" class="form-control" id="z"
+                                               placeholder="16" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary col-md-2">Submit</button>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="point-on-map">
+                <div class="card-header" role="tab" id="heading-B">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false"
+                           aria-controls="collapse-B">
+                            Point on Map
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse-B" class="collapse" role="tabpanel" data-parent="#content"
+                     aria-labelledby="heading-B">
+                    <div class="card-body">
+                        <section>
+                            <div class="container">
+                                <div id="map" style="height: 800px; width: 800px; margin: 0 auto;"></div>
+                                <script
+                                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGHMwuICv6YA1GJvYS2tiodBVIgKPGzIU&callback=initMap&libraries=&v=weekly"
+                                        async
+                                ></script>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'detection/js/detect.js' %}"></script>
+
+{% endblock %}
