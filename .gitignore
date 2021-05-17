@@ -7,4 +7,6 @@ venv/
 *.sqlite3
 local_settings.py
 staticfiles/
+media/
+*.mp4
 
