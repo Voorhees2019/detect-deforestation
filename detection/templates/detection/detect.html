@@ -47,9 +47,9 @@
                                         at least 500x500 resolution for better detection accuracy</h3>
                                     <div class="fileInput">
                                         <div class="form-group">
-                                            <input type="file" name="uploaded_file" id="file" class="input-file"
+                                            <input type="file" name="uploaded_file" id="uploadedFile" class="input-file"
                                                    required>
-                                            <label for="file" class="btn btn-tertiary js-labelFile">
+                                            <label for="uploadedFile" class="btn btn-tertiary js-labelFile">
                                                 <i class="icon fa fa-check"></i>
                                                 <span class="js-fileName">Upload photo</span>
                                             </label>
@@ -57,21 +57,22 @@
                                     </div>
                                     <h3>Enter coordinates of center and zoom of uploaded photo</h3>
                                     <div class="form-group">
-                                        <label for="lat">Latitude</label>
-                                        <input type="text" name="latitude" class="form-control" id="lat"
-                                               placeholder="52.152942" required>
+                                        <label for="latFile">Latitude</label>
+                                        <input type="number" min="-90" max="90" step="0.0001" name="latitude"
+                                               class="form-control" id="latFile" placeholder="52.152942" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="lon">Longitude</label>
-                                        <input type="text" name="longitude" class="form-control" id="lon"
-                                               placeholder="32.827826" required>
+                                        <label for="lngFile">Longitude</label>
+                                        <input type="number" min="-180" max="180" step="any" name="longitude"
+                                               class="form-control" id="lngFile" placeholder="32.827826" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="z">Zoom</label>
-                                        <input type="text" name="zoom" class="form-control" id="z"
-                                               placeholder="16" required>
+                                        <label for="zoomFile">Zoom</label>
+                                        <input type="number" min="1" max="21" step="1" name="zoom"
+                                               class="form-control" id="zoomFile" placeholder="16" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary col-md-2">Submit</button>
+                                    <button type="submit" class="btn btn-primary col-md-2"
+                                            onclick="checkUploadedFile()">Submit</button>
                                 </form>
                             </div>
                         </section>
@@ -93,11 +94,38 @@
                     <div class="card-body">
                         <section>
                             <div class="container">
-                                <div id="map" style="height: 800px; width: 800px; margin: 0 auto;"></div>
-                                <script
-                                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGHMwuICv6YA1GJvYS2tiodBVIgKPGzIU&callback=initMap&libraries=&v=weekly"
-                                        async
-                                ></script>
+                                <form action="{% url 'detect_on_map' %}" method="POST">
+                                    {% csrf_token %}
+                                    <h3>***Instructions how to use***</h3>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="latMap">Latitude</label>
+                                            <input type="number" min="-90" max="90" step="any" name="latitude"
+                                                   class="form-control" id="latMap" value='49.37077835263306'
+                                                   oninput="updateMap()" required> <!-- onchange -->
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="lngMap">Longitude</label>
+                                            <input type="number" min="-180" max="180" step="any" name="longitude"
+                                                   class="form-control" id="lngMap" value='31.756979551851998'
+                                                   oninput="updateMap()" required> <!-- onchange -->
+                                        </div>
+                                        <input type="hidden" id="zoomMap" name="zoom" value="13">
+                                    </div>
+                                    <div class="form-row">
+                                        <div id="map" style="height: 640px; width: 640px; margin: 0 auto;"></div>
+                                        <!-- Hide controls until they are moved into the map. -->
+                                        <div style="display: none">
+                                            <div class="controls zoom-control">
+                                                <button type="button" class="zoom-control-in" title="Zoom In">+</button>
+                                                <button type="button" class="zoom-control-out" title="Zoom Out">−</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
+                                    </div>
+                                </form>
                             </div>
                         </section>
                     </div>
@@ -106,6 +134,12 @@
         </div>
     </div>
 
-    <script src="{% static 'detection/js/detect.js' %}"></script>
+{% endblock %}
 
+{% block script %}
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGHMwuICv6YA1GJvYS2tiodBVIgKPGzIU&callback=initMap&libraries=&v=weekly"
+            async
+    ></script>
+    <script src="{% static 'detection/js/detect.js' %}"></script>
 {% endblock %}

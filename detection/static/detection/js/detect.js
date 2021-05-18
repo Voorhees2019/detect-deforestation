@@ -14,3 +14,9 @@
     });
 
 })();
+
+function checkUploadedFile() {
+    if (document.getElementById("uploadedFile").files.length === 0) {
+        alert('Please attach a photo');
+    }
+}
