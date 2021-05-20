@@ -77,8 +77,3 @@ def detect_on_map(request):
         return render(request, 'detection/result.html', {'user_request': user_request})
     else:
         return render(request, 'detection/detect.html', {})
-
-
-def test(request):
-    req = get_object_or_404(Request, id=20)
-    return render(request, 'detection/test.html', {'req': req})

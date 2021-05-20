@@ -3,9 +3,14 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from detection.models import Request
+from django.core.paginator import EmptyPage, Paginator, PageNotAnInteger
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -22,6 +27,9 @@ def login(request):
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -62,4 +70,8 @@ def logout(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html', {})
+    user_requests = Request.objects.filter(user=request.user).order_by('-date_uploaded')
+    paginator = Paginator(user_requests, 15)
+    page = request.GET.get('page')
+    paged_user_requests = paginator.get_page(page)
+    return render(request, 'accounts/dashboard.html', {'user_requests': paged_user_requests})
