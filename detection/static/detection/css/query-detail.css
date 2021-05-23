@@ -1,0 +1,8 @@
+.post-img a img {
+	opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+.post-img a:hover img {
+	opacity: .5;
+}

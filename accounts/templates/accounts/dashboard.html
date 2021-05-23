@@ -4,15 +4,22 @@
 {% block title %}| Dashboard{% endblock %}
 {% block link %}
     <link rel="stylesheet" href="{% static 'accounts/css/pagination.css' %}">
+    <link rel="stylesheet" href="{% static 'detection/css/query-detail.css' %}">
+    <style>
+        table, thead, tr, tbody, th, td {
+            text-align: center;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    <section id="showcase-inner" class="py-5 text-white">
+    <section id="showcase-inner" class="py-5">
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-12">
                     <h1 class="display-4">User Dashboard</h1>
                     <p class="lead">Manage your Real Estate account</p>
+                    <a href="{% url 'detect' %}" class="btn btn-success">Make new request</a>
                 </div>
             </div>
         </div>
@@ -58,18 +65,31 @@
                             <tbody>
                             {% for user_request in user_requests %}
                                 <tr>
-                                    <td>{{ forloop.revcounter }}</td>
+                                    <td class="font-weight-bold">{{ forloop.revcounter }}</td>
                                     <td>{{ user_request.latitude }}, {{ user_request.longitude }}</td>
-                                    <td><img src="{{ user_request.image.url }}" alt=""
-                                             width="40px"></td>
-                                    <td><img src="{{ user_request.response.image.url }}" alt=""
-                                             width="40px"></td>
-                                    <td>{{ user_request.date_uploaded|date:'F d, Y' }}</td>
                                     <td>
-                                        <a href="" class="btn btn-primary">details</a>
+                                        <div class="post-img">
+                                            <a href="{{ user_request.image.url }}"
+                                               data-lightbox="request-response-images">
+                                                <img src="{{ user_request.image.url }}" alt=""
+                                                      class="img-fluid" width="50px"></a>
+                                        </div>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-danger">delete</a>
+                                        <div class="post-img">
+                                            <a href="{{ user_request.response.image.url }}"
+                                               data-lightbox="request-response-images">
+                                                <img src="{{ user_request.response.image.url }}" alt=""
+                                                      class="img-fluid" width="50px"></a>
+                                        </div>
+                                    </td>
+                                    <td>{{ user_request.date_uploaded|date:'F d, Y' }}</td>
+                                    <td>
+                                        <a href="{% url 'query_detail' user_request.id %}" class="btn btn-primary">details</a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'query_delete' user_request.id %}"
+                                           class="btn btn-danger">delete</a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -77,6 +97,7 @@
                         </table>
                     {% else %}
                         <p>You have not made any requests yet</p>
+                        <a href="{% url 'detect' %}" class="btn btn-primary">Start Now</a>
                     {% endif %}
                 </div>
             </div>

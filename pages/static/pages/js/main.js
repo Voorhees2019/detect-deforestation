@@ -4,5 +4,5 @@ document.querySelector('.year').innerHTML = date.getFullYear();
 
 // Alerts fade out after 3 seconds
 setTimeout(function () {
-    $('.alert').alert('close');
+    $('#message').fadeOut('slow');
 }, 3000);

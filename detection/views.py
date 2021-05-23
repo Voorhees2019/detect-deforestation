@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Request, Response
 import urllib.request
 from shutil import copyfileobj
@@ -77,3 +77,14 @@ def detect_on_map(request):
         return render(request, 'detection/result.html', {'user_request': user_request})
     else:
         return render(request, 'detection/detect.html', {})
+
+
+def query_detail(request, query_id):
+    query_obj = get_object_or_404(Request, pk=query_id)
+    return render(request, 'detection/query-detail.html', {'query': query_obj})
+
+
+def query_delete(request, query_id):
+    query_obj = get_object_or_404(Request, pk=query_id)
+    query_obj.delete()
+    return redirect('dashboard')

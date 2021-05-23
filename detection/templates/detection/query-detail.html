@@ -1,0 +1,41 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}| Query Detail{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'detection/css/query-detail.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!-- Alerts -->
+    {% include 'partials/_alerts.html' %}
+
+    <section id="dashboard" class="pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Welcome {{ user.username }}</h2>
+                    <h1>{{ query.id }}</h1>
+                    <h1>{{ query.latitude }}</h1>
+                    <h1>{{ query.longitude }}</h1>
+                    <h1>{{ query.zoom }}</h1>
+                    <h1>{{ query.date_uploaded }}</h1>
+                    <h1>{{ query.user.username }}</h1>
+                </div>
+            </div>
+            <div class="row mb-5 thumbs">
+                <div class="col-md-6 post-img">
+                    <a href="{{ query.image.url }}" data-lightbox="request-response-images">
+                        <img src="{{ query.image.url }}" alt="" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-6 post-img">
+                    <a href="{{ query.image.url }}" data-lightbox="request-response-images">
+                        <img src="{{ query.response.image.url }}" alt="" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
