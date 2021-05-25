@@ -71,7 +71,10 @@ def logout(request):
 @login_required
 def dashboard(request):
     user_requests = Request.objects.filter(user=request.user).order_by('-date_uploaded')
-    paginator = Paginator(user_requests, 15)
+    request_amount = user_requests.count()
+    paginator = Paginator(user_requests, 10)
     page = request.GET.get('page')
     paged_user_requests = paginator.get_page(page)
-    return render(request, 'accounts/dashboard.html', {'user_requests': paged_user_requests})
+
+    return render(request, 'accounts/dashboard.html', {'request_amount': request_amount,
+                                                       'user_requests': paged_user_requests})

@@ -29,4 +29,4 @@ class Response(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Response to "{Request.objects.get(response=self)}"'
+        return f'Response to "{Request.objects.filter(response=self).first()}"'

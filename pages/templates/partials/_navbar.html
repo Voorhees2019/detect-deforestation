@@ -16,8 +16,8 @@
                 <li class="nav-item {% if 'about' in request.path %}active{% endif %} mr-3">
                     <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
-                <li class="nav-item {% if 'listings' in request.path %}active{% endif %} mr-3">
-                    <a class="nav-link" href="">Latest Requests</a>
+                <li class="nav-item {% if 'queries' in request.path %}active{% endif %} mr-3">
+                    <a class="nav-link" href="{% url 'latest_queries' %}">Latest Queries</a>
                 </li>
             </ul>
 

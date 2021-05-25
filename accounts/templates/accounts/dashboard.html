@@ -1,24 +1,21 @@
 {% extends 'pages/base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}| Dashboard{% endblock %}
-{% block link %}
-    <link rel="stylesheet" href="{% static 'accounts/css/pagination.css' %}">
-    <link rel="stylesheet" href="{% static 'detection/css/query-detail.css' %}">
-    <style>
-        table, thead, tr, tbody, th, td {
-            text-align: center;
-        }
-    </style>
-{% endblock %}
 
 {% block content %}
-    <section id="showcase-inner" class="py-5">
+
+    <section id="showcase-inner" class="py-5 text-white">
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-12">
-                    <h1 class="display-4">User Dashboard</h1>
-                    <p class="lead">Manage your Real Estate account</p>
+                    <h1 class="display-4">{{ request.user.first_name }} {{ request.user.last_name }}</h1>
+                    <h3>{{ request.user.email }}</h3>
+                    <p class="lead">Manage your account</p>
+                    <h4>send_updates: {{ request.user.profile.send_updates }}</h4>
+                    <h4>update_frequency: {{ request.user.profile.update_frequency }}</h4>
+                    <a href="{% url 'password_change' %}" class="btn btn-primary">Change Password</a>
                     <a href="{% url 'detect' %}" class="btn btn-success">Make new request</a>
                 </div>
             </div>
@@ -47,9 +44,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Welcome {{ user.username }}</h2>
+                    <h2>Welcome {{ request.user.username }}</h2>
                     {% if user_requests %}
-                        <h5>Here are the requests that you have inquired about</h5>
+                        <h5>Here are the requests that you have inquired. Total: {{ request_amount }}</h5>
                         <table class="table">
                             <thead>
                             <tr>
@@ -65,14 +62,14 @@
                             <tbody>
                             {% for user_request in user_requests %}
                                 <tr>
-                                    <td class="font-weight-bold">{{ forloop.revcounter }}</td>
+                                    <td class="font-weight-bold">{{ forloop.counter|normalize_table_number:user_requests.number }}</td>
                                     <td>{{ user_request.latitude }}, {{ user_request.longitude }}</td>
                                     <td>
                                         <div class="post-img">
                                             <a href="{{ user_request.image.url }}"
                                                data-lightbox="request-response-images">
                                                 <img src="{{ user_request.image.url }}" alt=""
-                                                      class="img-fluid" width="50px"></a>
+                                                     class="img-fluid" width="50px"></a>
                                         </div>
                                     </td>
                                     <td>
@@ -80,7 +77,7 @@
                                             <a href="{{ user_request.response.image.url }}"
                                                data-lightbox="request-response-images">
                                                 <img src="{{ user_request.response.image.url }}" alt=""
-                                                      class="img-fluid" width="50px"></a>
+                                                     class="img-fluid" width="50px"></a>
                                         </div>
                                     </td>
                                     <td>{{ user_request.date_uploaded|date:'F d, Y' }}</td>
@@ -96,49 +93,50 @@
                             </tbody>
                         </table>
                     {% else %}
-                        <p>You have not made any requests yet</p>
+                        <p>You have not made any queries yet</p>
                         <a href="{% url 'detect' %}" class="btn btn-primary">Start Now</a>
                     {% endif %}
                 </div>
             </div>
-        </div>
 
-        <!-- Pagination -->
-        <div class="row">
-            <div class="col-md-12">
-                {% if user_requests.has_other_pages %}
-                    <ul class="pagination justify-content-center">
-                        {% if user_requests.has_previous %}
-                            <li class="page-item">
-                                <a href="?page={{ user_requests.previous_page_number }}" class="page-link">&laquo;</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link">&laquo;</a>
-                            </li>
-                        {% endif %}
-                        {% for i in user_requests.paginator.page_range %}
-                            {% if user_requests.number == i %}
-                                <li class="page-item active">
-                                    <a class="page-link">{{ i }}</a>
+            <!-- Pagination -->
+            <div class="row">
+                <div class="col-md-12">
+                    {% if user_requests.has_other_pages %}
+                        <ul class="pagination justify-content-center">
+                            {% if user_requests.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{ user_requests.previous_page_number }}"
+                                       class="page-link">&laquo;</a>
                                 </li>
                             {% else %}
-                                <li class="page-item">
-                                    <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                <li class="page-item disabled">
+                                    <a class="page-link">&laquo;</a>
                                 </li>
                             {% endif %}
-                        {% endfor %}
-                        {% if user_requests.has_next %}
-                            <li class="page-item">
-                                <a href="?page={{ user_requests.next_page_number }}" class="page-link">&raquo;</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link">&raquo;</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                {% endif %}
+                            {% for i in user_requests.paginator.page_range %}
+                                {% if user_requests.number == i %}
+                                    <li class="page-item active">
+                                        <a class="page-link">{{ i }}</a>
+                                    </li>
+                                {% elif i > user_requests.number|add:'-3' and i < user_requests.number|add:'3' %}
+                                    <li class="page-item">
+                                        <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if user_requests.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{ user_requests.next_page_number }}" class="page-link">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link">&raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </section>

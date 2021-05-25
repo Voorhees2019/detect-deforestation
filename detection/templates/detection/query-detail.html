@@ -2,14 +2,8 @@
 {% load static %}
 
 {% block title %}| Query Detail{% endblock %}
-{% block link %}
-    <link rel="stylesheet" href="{% static 'detection/css/query-detail.css' %}">
-{% endblock %}
 
 {% block content %}
-    <!-- Alerts -->
-    {% include 'partials/_alerts.html' %}
-
     <section id="dashboard" class="pb-4">
         <div class="container">
             <div class="row">
@@ -21,6 +15,7 @@
                     <h1>{{ query.zoom }}</h1>
                     <h1>{{ query.date_uploaded }}</h1>
                     <h1>{{ query.user.username }}</h1>
+                    <a href="{% url 'detect' %}" class="btn btn-success">Make another request</a>
                 </div>
             </div>
             <div class="row mb-5 thumbs">
@@ -30,7 +25,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 post-img">
-                    <a href="{{ query.image.url }}" data-lightbox="request-response-images">
+                    <a href="{{ query.response.image.url }}" data-lightbox="request-response-images">
                         <img src="{{ query.response.image.url }}" alt="" class="img-fluid">
                     </a>
                 </div>
