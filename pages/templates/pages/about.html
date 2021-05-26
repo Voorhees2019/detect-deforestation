@@ -10,7 +10,6 @@
             <div class="row text-center">
                 <div class="col-md-12">
                     <h1 class="display-4">About Deforestation Detection</h1>
-                    <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
                 </div>
             </div>
         </div>
@@ -35,8 +34,48 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>ABOUT</h2>
-
+                    <h2 class="text-center font-weight-bold mb-3">U-Net: Convolutional Networks for Biomedical Image
+                        Segmentation</h2>
+                    <p align="justify" style="font-size: 20px;">The typical use of convolutional networks is on
+                        classification tasks, where
+                        the output to an image is a single class label. However, in many visual tasks,
+                        especially in biomedical image processing, the desired output should include
+                        localization, i.e., a class label is supposed to be assigned to each pixel. Moreover, thousands
+                        of training images are usually beyond reach in biomedical tasks.
+                        Hence, Ciresan et al. trained a network in a sliding-window setup to predict
+                        the class label of each pixel by providing a local region (patch) around that pixel as input.
+                        First, this network can localize. Secondly, the training data in terms
+                        of patches is much larger than the number of training images. The resulting
+                        network won the EM segmentation challenge at ISBI 2012 by a large margin.</p>
+                    <figure class=" d-block text-center">
+                        <img src="{% static 'pages/img/unet_arch.png' %}" alt="u-net architecture" style="width: 70%">
+                        <figcaption><span class="font-weight-bold">Fig. 1.</span> U-net architecture (example for 32x32
+                            pixels in the lowest resolution).
+                            Each blue box corresponds to a multi-channel feature map. The number of channels is denoted
+                            on top of the box. The x-y-size is provided at the lower left edge of the box. White
+                            boxes represent copied feature maps. The arrows denote the different operations.
+                        </figcaption>
+                    </figure>
+                    <h4 class="font-weight-bold mb-3">Network Architecture</h4>
+                    <p align="justify" style="font-size: 20px;">The network architecture is illustrated in Figure 1.
+                        It consists of a contracting
+                        path (left side) and an expansive path (right side). The contracting path follows
+                        the typical architecture of a convolutional network. It consists of the repeated
+                        application of two 3x3 convolutions (unpadded convolutions), each followed by
+                        a rectified linear unit (ReLU) and a 2x2 max pooling operation with stride 2
+                        for downsampling. At each downsampling step we double the number of feature
+                        channels. Every step in the expansive path consists of an upsampling of the
+                        feature map followed by a 2x2 convolution (“up-convolution”) that halves the
+                        number of feature channels, a concatenation with the correspondingly cropped
+                        feature map from the contracting path, and two 3x3 convolutions, each followed by a ReLU. The
+                        cropping is necessary due to the loss of border pixels in
+                        every convolution. At the final layer a 1x1 convolution is used to map each 64-
+                        component feature vector to the desired number of classes. In total the network
+                        has 23 convolutional layers.
+                        To allow a seamless tiling of the output segmentation map (see Figure 2), it
+                        is important to select the input tile size such that all 2x2 max-pooling operations
+                        are applied to a layer with an even x- and y-size.<br>
+                        The dataset was collected from Google and ArcGIS Online and marked up by the developers</p>
                 </div>
             </div>
         </div>

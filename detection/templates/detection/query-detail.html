@@ -6,31 +6,36 @@
 {% block content %}
     <section id="dashboard" class="pb-4">
         <div class="container">
-            <div class="row">
+            <div class="row text-center">
                 <div class="col-md-12">
-                    <h2>Welcome {{ user.username }}</h2>
-                    <h1>{{ query.id }}</h1>
-                    <h1>{{ query.latitude }}</h1>
-                    <h1>{{ query.longitude }}</h1>
-                    <h1>{{ query.zoom }}</h1>
-                    <h1>{{ query.date_uploaded }}</h1>
-                    <h1>{{ query.user.username }}</h1>
-                    <a href="{% url 'detect' %}" class="btn btn-success">Make another request</a>
+                    <!-- Alerts -->
+                    {% include 'partials/_alerts.html' %}
+
+                    <h1 class="mt-3">Request made by {{ user.username }}</h1>
+                    <h2>Center coordinates: {{ query.latitude }}, {{ query.longitude }}</h2>
+                    <h3>Date inquired: {{ query.date_uploaded }}</h3>
+                    <a href="{% url 'detect' %}" class="btn btn-success">Make a new request</a>
+                    Found mistake?
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#inquiryModal">Contact Us</button>
                 </div>
             </div>
-            <div class="row mb-5 thumbs">
+            <div class="row my-4 thumbs">
                 <div class="col-md-6 post-img">
+                    <h3 class="text-center">Input query</h3>
                     <a href="{{ query.image.url }}" data-lightbox="request-response-images">
                         <img src="{{ query.image.url }}" alt="" class="img-fluid">
                     </a>
                 </div>
                 <div class="col-md-6 post-img">
+                    <h3 class="text-center">Result</h3>
                     <a href="{{ query.response.image.url }}" data-lightbox="request-response-images">
                         <img src="{{ query.response.image.url }}" alt="" class="img-fluid">
                     </a>
                 </div>
             </div>
         </div>
-
     </section>
+
+    <!-- Inquiry Modal -->
+    {% include 'partials/_inquiryModal.html' %}
 {% endblock %}

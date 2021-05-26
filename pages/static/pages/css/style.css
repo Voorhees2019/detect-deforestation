@@ -97,16 +97,16 @@ table, thead, tr, tbody, th, td {
 }
 
 .post-img a img {
-	opacity: 1;
-	-webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
-}
-.post-img a:hover img {
-	opacity: .5;
+    opacity: 1;
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
 }
 
-.pagination > li > a
-{
+.post-img a:hover img {
+    opacity: .5;
+}
+
+.pagination > li > a {
     background-color: white;
     color: #10284e;
 }
@@ -114,22 +114,19 @@ table, thead, tr, tbody, th, td {
 .pagination > li > a:focus,
 .pagination > li > a:hover,
 .pagination > li > span:focus,
-.pagination > li > span:hover
-{
+.pagination > li > span:hover {
     color: #5a5a5a;
     background-color: #eee;
     border-color: #ddd;
 }
 
-.pagination > .active > a
-{
+.pagination > .active > a {
     color: white;
     background-color: #10284e !Important;
     border: solid 1px #10284e !Important;
 }
 
-.pagination > .active > a:hover
-{
+.pagination > .active > a:hover {
     background-color: #10284e !Important;
     border: solid 1px #10284e;
 }

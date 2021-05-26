@@ -15,8 +15,10 @@
                     <p class="lead">Manage your account</p>
                     <h4>send_updates: {{ request.user.profile.send_updates }}</h4>
                     <h4>update_frequency: {{ request.user.profile.update_frequency }}</h4>
+                    <a href="" class="btn btn-primary">Edit profile info</a>
                     <a href="{% url 'password_change' %}" class="btn btn-primary">Change Password</a>
                     <a href="{% url 'detect' %}" class="btn btn-success">Make new request</a>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#inquiryModal">Contact Us</button>
                 </div>
             </div>
         </div>
@@ -140,4 +142,7 @@
             </div>
         </div>
     </section>
+
+    <!-- Inquiry Modal -->
+    {% include 'partials/_inquiryModal.html' %}
 {% endblock %}
