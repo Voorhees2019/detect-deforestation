@@ -34,6 +34,11 @@ body {
     text-decoration: none;
 }
 
+.intro-info p {
+    font-size: 18px;
+    text-align: justify;
+}
+
 #services {
     background: url(../img/img.png) no-repeat top center fixed;
     background-size: cover;
