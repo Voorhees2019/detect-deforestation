@@ -71,6 +71,11 @@
                                     {#                                        <input type="number" min="1" max="21" step="1" name="zoom"#}
                                     {#                                               class="form-control" id="zoomFile" placeholder="16" required>#}
                                     {#                                    </div>#}
+                                    <div class="form-check ml-3 my-3">
+                                        <input id="checkWeekly" class="form-check-input" type="checkbox"
+                                               name="check_weekly" value="">
+                                        <label class="form-check-label" for="checkWeekly">Check every week</label>
+                                    </div>
                                     <button type="submit" class="btn btn-primary col-md-2"
                                             onclick="checkUploadedFile()">Submit
                                     </button>
@@ -97,7 +102,8 @@
                             <div class="container">
                                 <form action="{% url 'detect_on_map' %}" method="POST">
                                     {% csrf_token %}
-                                    <h3 align="justify">Enter the coordinates of the center point on the map and adjust the zoom level
+                                    <h3 align="justify">Enter the coordinates of the center point on the map and adjust
+                                        the zoom level
                                         as needed, or select a photo to fill the entire map below.</h3>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -113,6 +119,11 @@
                                                    oninput="updateMap()" required> <!-- onchange -->
                                         </div>
                                         <input type="hidden" id="zoomMap" name="zoom" value="13">
+                                        <div class="form-check ml-3 my-3">
+                                            <input id="checkWeekly" class="form-check-input" type="checkbox"
+                                                   name="check_weekly" value="">
+                                            <label class="form-check-label" for="checkWeekly">Check every week</label>
+                                        </div>
                                     </div>
                                     <div class="form-row">
                                         <div id="map" style="height: 640px; width: 640px; margin: 0 auto;"></div>

@@ -7,5 +7,5 @@ urlpatterns = [
     path('response2/', views.detect_on_map, name='detect_on_map'),
     path('queries/', views.latest_queries, name='latest_queries'),
     path('query/<int:query_id>/', views.query_detail, name='query_detail'),
-    path('query/<int:query_id>/delete', views.query_delete, name='query_delete'),
+    path('query/<int:query_id>/delete/', views.query_delete, name='query_delete'),
 ]

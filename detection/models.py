@@ -8,6 +8,7 @@ class Request(models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=6)
     zoom = models.IntegerField(default=16)
     image = models.ImageField(upload_to='request_photos/%Y/%m/%d/')
+    check_weekly = models.BooleanField(default=False)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     response = models.ForeignKey('Response', on_delete=models.CASCADE)

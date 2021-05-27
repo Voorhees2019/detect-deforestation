@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'detection',
     'contacts',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -149,8 +150,17 @@ MESSAGE_TAGS = {
 }
 
 # Email config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
-EMAIL_USE_TLS = True
+
+# cronjobs
+# CRONTAB_DJANGO_SETTINGS_MODULE = 'detection_deforestation.settings'
+CRONTAB_COMMAND_SUFFIX = '2>&1'
+CRONJOBS = [
+    # ('*/1 * * * *', 'detection.cron.my_scheduled_job')
+    ('0 0 * * 0', 'detection.cron.my_scheduled_job', '>> ./crontab.log')
+]
