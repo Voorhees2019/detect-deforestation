@@ -13,7 +13,7 @@
                     <h1 class="display-4">{{ request.user.first_name }} {{ request.user.last_name }}</h1>
                     <h2>{{ request.user.email }}</h2>
                     <h3 class="lead mb-3">Manage your account</h3>
-                    <a href="" class="btn btn-warning">Edit profile info</a>
+                    <a href="{% url 'edit-profile' %}" class="btn btn-warning">Edit profile info</a>
                     <a href="{% url 'password_change' %}" class="btn btn-primary">Change Password</a>
                     <a href="{% url 'detect' %}" class="btn btn-success">Make new request</a>
                     <button class="btn btn-info" data-toggle="modal" data-target="#inquiryModal">Contact Us</button>
@@ -80,7 +80,7 @@
                                                      class="img-fluid" width="50px"></a>
                                         </div>
                                     </td>
-                                    <td>{{ user_request.date_uploaded|date:'F d, Y'|date:'F d, Y' }}</td>
+                                    <td>{{ user_request.date_uploaded|date:'F d, Y' }}</td>
                                     <td>
                                         <a href="{% url 'query_detail' user_request.id %}" class="btn btn-primary">details</a>
                                     </td>

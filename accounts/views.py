@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -66,6 +66,28 @@ def logout(request):
     auth.logout(request)
     messages.success(request, 'You are now logged out')
     return redirect('home')
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        send_updates = True if 'send_updates' in request.POST else False
+
+        # Change profile info
+        user_obj = request.user
+        user_obj.username = username
+        user_obj.email = email
+        user_obj.first_name = first_name
+        user_obj.last_name = last_name
+        user_obj.profile.send_updates = send_updates
+        user_obj.save()
+        return redirect('dashboard')
+    # GET method
+    return render(request, 'accounts/edit_profile.html', {})
 
 
 @login_required

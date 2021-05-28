@@ -26,4 +26,6 @@ urlpatterns = [
         template_name='accounts/password_change_done.html'), name='password_change_done'),
     # user dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
+    # edit user profile
+    path('edit-profile/', views.edit_profile, name='edit-profile'),
 ]

@@ -1,15 +1,14 @@
-from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from .views import detect, get_static_map_image, delete_excess_images
+from accounts.models import Profile
 from detection.models import Request
 from PIL import Image
 from django.core.files.images import ImageFile
-import os
 
 
 def my_scheduled_job():
-    for user in User.objects.all():
-        requests_to_check = Request.objects.filter(user=user, check_weekly=True)
+    for profile in Profile.objects.filter(send_updates=True):
+        requests_to_check = Request.objects.filter(user=profile.user, check_weekly=True)
         for request in requests_to_check:
             lat = request.latitude
             lng = request.longitude
@@ -41,7 +40,7 @@ def my_scheduled_job():
                     f'We have detected changes in forest condition since your last request at {lat}, {lng} '
                     f'coordinates ({request.date_uploaded}). Make sure it is not illegal deforestation.',
                     'nnewsteam2015@gmail.com',
-                    [user.email],
+                    [profile.user.email],
                     fail_silently=False
                 )
 

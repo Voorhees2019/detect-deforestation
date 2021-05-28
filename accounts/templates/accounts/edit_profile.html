@@ -1,0 +1,54 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}| Edit Profile{% endblock %}
+
+{% block content %}
+    <section id="editProfile" class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h4>
+                                <i class="fas fa-user"></i> Edit Profile</h4>
+                        </div>
+                        <div class="card-body">
+                            {% include 'partials/_alerts.html' %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" class="form-control"
+                                           value="{{ request.user.username }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" class="form-control"
+                                           value="{{ request.user.email }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name">First Name</label>
+                                    <input type="text" name="first_name" class="form-control"
+                                           value="{{ request.user.first_name }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" name="last_name" class="form-control"
+                                           value="{{ request.user.last_name }}" required>
+                                </div>
+                                <div class="form-group ml-4">
+                                    <input id="sendUpdates" class="form-check-input" type="checkbox"
+                                           name="send_updates" value=""
+                                           {% if request.user.profile.send_updates %}checked{% endif %}>
+                                    <label class="form-check-label" for="sendUpdates">Send statistics of changes on your email</label>
+                                </div>
+                                <input type="submit" value="Update Profile Info"
+                                       class="btn btn-secondary btn-block mb-3">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
